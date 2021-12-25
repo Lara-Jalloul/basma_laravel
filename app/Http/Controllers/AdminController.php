@@ -58,7 +58,7 @@ class AdminController extends Controller
         if($name === "last_24hours"){
             $date=Carbon::now()->subHours(24)->toDateTimeString();
             $count= User::where('created_at','>=',$date)->count();
-            $average = $count / 24;
+            $average = ceil($count / 24);
             return response()->json([
                 'users' => $count,
                 'average' => $average,
@@ -68,7 +68,7 @@ class AdminController extends Controller
         else if($name === "last_week"){
             $date = Carbon::now()->subWeek(1)->toDateTimeString();
             $count= User::where('created_at','>=',$date)->count();
-            $average = $count / 7;
+            $average = ceil($count / 7);
             return response()->json([
                 'users' => $count,
                 'average' => $average,
@@ -78,7 +78,7 @@ class AdminController extends Controller
         else if($name === "last_month"){
             $date = Carbon::now()->subMonth(1)->toDateTimeString();
             $count= User::where('created_at','>=',$date)->count();
-            $average = $count / (7 * 4 + 2);
+            $average = ceil($count / (7 * 4 + 2));
             return response()->json([
                 'users' => $count,
                 'average' => $average,
@@ -88,7 +88,7 @@ class AdminController extends Controller
         else if($name === "last_3months"){
             $date = Carbon::now()->subMonth(3)->toDateTimeString();
             $count= User::where('created_at','>=',$date)->count();
-            $average = $count / ((( 7 * 4 ) + 2)*3);
+            $average = ceil($count / ((( 7 * 4 ) + 2)*3));
             return response()->json([
                 'users' => $count,
                 'average' => $average,
@@ -98,7 +98,7 @@ class AdminController extends Controller
         else if($name === "last_year"){
             $date=Carbon::now()->subYear(1)->toDateTimeString();
             $count= User::where('created_at','>=',$date)->count();
-            $average = $count / ((( 7 * 4) + 2) * 12);
+            $average = ceil($count / ((( 7 * 4) + 2) * 12));
             return response()->json([
                 'users' => $count,
                 'average' => $average,
