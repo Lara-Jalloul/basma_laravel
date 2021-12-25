@@ -52,10 +52,12 @@ class AdminController extends Controller
         ]);
     }
 
-    public function getAverage ($name){
+    public function getAverage (Request $request){
+
+        $res = $request->input('name');
 
         $date = Carbon::today();
-        if($name === "last_24hours"){
+        if($res === "last_24hours"){
             $date=Carbon::now()->subHours(24)->toDateTimeString();
             $count= User::where('created_at','>=',$date)->count();
             $average = ceil($count / 24);
@@ -65,7 +67,7 @@ class AdminController extends Controller
             ]);
         }
 
-        else if($name === "last_week"){
+        else if($res === "last_week"){
             $date = Carbon::now()->subWeek(1)->toDateTimeString();
             $count= User::where('created_at','>=',$date)->count();
             $average = ceil($count / 7);
@@ -75,7 +77,7 @@ class AdminController extends Controller
             ]);
         }
 
-        else if($name === "last_month"){
+        else if($res === "last_month"){
             $date = Carbon::now()->subMonth(1)->toDateTimeString();
             $count= User::where('created_at','>=',$date)->count();
             $average = ceil($count / (7 * 4 + 2));
@@ -85,7 +87,7 @@ class AdminController extends Controller
             ]);
         }
 
-        else if($name === "last_3months"){
+        else if($res === "last_3months"){
             $date = Carbon::now()->subMonth(3)->toDateTimeString();
             $count= User::where('created_at','>=',$date)->count();
             $average = ceil($count / ((( 7 * 4 ) + 2)*3));
@@ -95,7 +97,7 @@ class AdminController extends Controller
             ]);
         }
 
-        else if($name === "last_year"){
+        else if($res === "last_year"){
             $date=Carbon::now()->subYear(1)->toDateTimeString();
             $count= User::where('created_at','>=',$date)->count();
             $average = ceil($count / ((( 7 * 4) + 2) * 12));
@@ -104,5 +106,40 @@ class AdminController extends Controller
                 'average' => $average,
             ]);
         }
-    }    
+    }
+    
+    public function filter (Request $request){
+
+        $id = $request->input('id');
+        $fname = $request->input('first_name');
+        $email = $request->input('email');
+        $nb_pagination = $request['nb'];
+
+        if($id){
+           $user = User::where('id','LIKE','%'.$id.'%')->paginate($nb_pagination);
+           return response()->json([
+               'users' => $user,
+            ]);
+        }
+
+        else if($fname){
+            $user = User::where('first_name','LIKE','%'.$fname.'%')->paginate($nb_pagination);
+            return response()->json([
+                'users' => $user,
+             ]);
+        }
+
+        else if($email){
+            $user = User::where('email','LIKE','%'.$email.'%')->paginate($nb_pagination);
+            return response()->json([
+                'users' => $user,
+            ]);
+        }
+        else{
+            $res = User::paginate($nb_pagination);
+            return response()->json([
+                'users' => $res,
+             ]);
+        }
+    }
 }

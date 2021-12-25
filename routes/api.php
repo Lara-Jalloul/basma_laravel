@@ -29,6 +29,7 @@ Route::group(['prefix' => 'admins'], function() {
     
     Route::group(['middleware' => ['jwt.admin']], function() {
         Route::post('/logout', [AdminController::class, 'logout']);
-        Route::get('/getAverage/{name}', [AdminController::class, 'getAverage']);
+        Route::get('/getAverage', [AdminController::class, 'getAverage']);
+        Route::get('/filter', [AdminController::class, 'filter']);
     });
 });
