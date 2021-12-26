@@ -18,18 +18,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'users'], function() {
     Route::post('/register', [UserController::class, 'register']);
-    
     Route::group(['middleware' => ['jwt.user']], function() {
+       
     });
 });
 
 Route::group(['prefix' => 'admins'], function() {
     Route::post('/register', [AdminController::class, 'register']);
     Route::post('/login', [AdminController::class, 'login']);
-    
+    Route::get('/filter', [AdminController::class, 'filter']);
+
     Route::group(['middleware' => ['jwt.admin']], function() {
         Route::post('/logout', [AdminController::class, 'logout']);
         Route::get('/getAverage', [AdminController::class, 'getAverage']);
-        Route::get('/filter', [AdminController::class, 'filter']);
+       
     });
 });

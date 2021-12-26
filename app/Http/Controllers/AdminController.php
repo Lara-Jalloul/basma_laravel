@@ -114,31 +114,60 @@ class AdminController extends Controller
         $email = $request->input('email');
         $nb_pagination = $request['nb'];
 
-        if($id){
-           $user = User::where('id','LIKE','%'.$id.'%')->paginate($nb_pagination);
-           return response()->json([
-               'users' => $user,
-            ]);
-        }
-
-        else if($fname){
+        if(! $id){
+            if(! $fname){
+                if(! $email){
+                    if(! $nb_pagination){
+                        $user = User::paginate(10);
+                        return response()->json([
+                        'users' => $user,
+                        ]);
+                    }
+                    $res = User::paginate($nb_pagination);
+                    return response()->json([
+                    'users' => $res,
+                    ]);
+                }
+                $user = User::where('email','LIKE','%'.$email.'%')->paginate($nb_pagination);
+                return response()->json([
+                'users' => $user,
+                ]);
+            }
             $user = User::where('first_name','LIKE','%'.$fname.'%')->paginate($nb_pagination);
             return response()->json([
-                'users' => $user,
-             ]);
-        }
-
-        else if($email){
-            $user = User::where('email','LIKE','%'.$email.'%')->paginate($nb_pagination);
-            return response()->json([
-                'users' => $user,
+            'users' => $user,
             ]);
         }
-        else{
-            $res = User::paginate($nb_pagination);
-            return response()->json([
-                'users' => $res,
-             ]);
-        }
+        $user = User::where('id','LIKE','%'.$id.'%')->paginate($nb_pagination);
+        return response()->json([
+        'users' => $user,
+        ]);
+
+        // if($nb_pagination){
+        //     $res = User::paginate($nb_pagination);
+        //     return response()->json([
+        //         'users' => $res,
+        //     ]);
+        // }
+
+        // else if($fname){
+        //     $user = User::where('first_name','LIKE','%'.$fname.'%')->paginate($nb_pagination);
+        //     return response()->json([
+        //         'users' => $user,
+        //      ]);
+        // }
+
+        // else if($email){
+        //     $user = User::where('email','LIKE','%'.$email.'%')->paginate($nb_pagination);
+        //     return response()->json([
+        //         'users' => $user,
+        //     ]);
+        // }
+        // else{
+        //     $res = User::paginate($nb_pagination);
+        //     return response()->json([
+        //         'users' => $res,
+        //     ]);
+        // }
     }
 }
