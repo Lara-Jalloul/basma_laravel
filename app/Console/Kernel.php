@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('notify:email')->everyMinute();
         $schedule->command('notify:email')
-        ->everyMinute();
+        ->daily();
     }
 
     /**
