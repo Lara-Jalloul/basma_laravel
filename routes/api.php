@@ -32,6 +32,5 @@ Route::group(['prefix' => 'admins'], function() {
         Route::post('/logout', [AdminController::class, 'logout']);
         Route::get('/getAverage', [AdminController::class, 'getAverage']);
         Route::get('/filter', [AdminController::class, 'filter']);
-        Route::get('/countUsers', [AdminController::class, 'CountUsers']);
     });
 });
