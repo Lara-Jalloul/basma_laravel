@@ -54,7 +54,8 @@ class AdminController extends Controller
 
     public function getAverage (Request $request){
 
-        $res = $request->input('name');
+        $res = $request['name'];
+
         $date = Carbon::today();
         if($res === "last_24hours"){
             $date=Carbon::now()->subHours(24)->toDateTimeString();
@@ -103,6 +104,12 @@ class AdminController extends Controller
             return response()->json([
                 'users' => $count,
                 'average' => $average,
+            ]);
+        }
+        else if($res === ""){
+            return response()->json([
+                'users' ,
+                'average'
             ]);
         }
     }

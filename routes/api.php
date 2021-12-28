@@ -26,11 +26,12 @@ Route::group(['prefix' => 'users'], function() {
 Route::group(['prefix' => 'admins'], function() {
     Route::post('/register', [AdminController::class, 'register']);
     Route::post('/login', [AdminController::class, 'login']);
-    Route::get('/filter', [AdminController::class, 'filter']);
+    
 
     Route::group(['middleware' => ['jwt.admin']], function() {
         Route::post('/logout', [AdminController::class, 'logout']);
         Route::get('/getAverage', [AdminController::class, 'getAverage']);
-       
+        Route::get('/filter', [AdminController::class, 'filter']);
+        Route::get('/countUsers', [AdminController::class, 'CountUsers']);
     });
 });
