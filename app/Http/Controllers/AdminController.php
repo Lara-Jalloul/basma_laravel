@@ -149,5 +149,40 @@ class AdminController extends Controller
         return response()->json([
         'users' => $user,
         ]);
+
+        // if($nb_pagination){
+        //     $res = User::paginate($nb_pagination);
+        //     return response()->json([
+        //         'users' => $res,
+        //     ]);
+        // }
+
+        // else if($fname){
+        //     $user = User::where('first_name','LIKE','%'.$fname.'%')->paginate($nb_pagination);
+        //     return response()->json([
+        //         'users' => $user,
+        //      ]);
+        // }
+
+        // else if($email){
+        //     $user = User::where('email','LIKE','%'.$email.'%')->paginate($nb_pagination);
+        //     return response()->json([
+        //         'users' => $user,
+        //     ]);
+        // }
+        // else{
+        //     $res = User::paginate($nb_pagination);
+        //     return response()->json([
+        //         'users' => $res,
+        //     ]);
+        // }
+    }
+
+    public function CountUsers()
+    {
+        $users =User::count();
+        return response()->json([
+           'users' => $users,
+        ]); 
     }
 }
